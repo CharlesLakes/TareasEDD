@@ -50,7 +50,7 @@ void InterpretarHora(string str_hora ,int *hora, int *minuto ){
 * int, Cantidad de struct FlujoNeto de el archivo name_file
 *****/
 
-int datToFlujoNeto(string name_file,struct FlujoNeto **data){
+int datToFlujoNeto(string name_file,struct FlujoNeto *data[]){
     int pos, lenght;
 
     ifstream arch(name_file,ios::binary | ios::ate);  
@@ -81,7 +81,7 @@ int datToFlujoNeto(string name_file,struct FlujoNeto **data){
 * Returns:
 * void, No tiene rentorno
 *****/
-void sortFlujoNeto(struct FlujoNeto *data, int lenght){
+void sortFlujoNeto(struct FlujoNeto data[], int lenght){
     for(int i = 0; i < lenght - 1 ; i++){
         for(int a = 0; a < lenght - i - 1; a++){
             if(data[a].hora*100 + data[a].minuto > data[a + 1].hora*100 + data[a + 1].minuto){
@@ -110,7 +110,7 @@ void sortFlujoNeto(struct FlujoNeto *data, int lenght){
 * Returns:
 * int, Cantidad de Personas
 *****/
-int ContarFlujoNeto(int hora, int minuto, struct FlujoNeto* data, int lenght){
+int ContarFlujoNeto(int hora, int minuto, struct FlujoNeto data[], int lenght){
 
 }
 
@@ -138,7 +138,7 @@ struct Asistencia{
 * Returns:
 * int, Cantidad de datos
 *****/
-int txtToAsistencia(string name_file, struct Asistencia **data){
+int txtToAsistencia(string name_file, struct Asistencia *data[]){
 
 }
 
@@ -160,7 +160,7 @@ int txtToAsistencia(string name_file, struct Asistencia **data){
 * Returns:
 * int, Cantidad de trabajadores en cierta hora
 *****/
-int CalcularTrabajadores(int hora,int minuto,struct Asistencia *data, int lenght){
+int CalcularTrabajadores(int hora,int minuto,struct Asistencia data[], int lenght){
 
 }
 
