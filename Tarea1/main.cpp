@@ -33,7 +33,7 @@ void LeeYOrdenTest(){
         cout << '\t' << "Personas: " << data[i].personas << endl;
    }
 
-    sortFlujoNeto(lenght,data);
+    sortFlujoNeto(data,lenght);
 
     for(int i = 0; i < lenght ; i++){
         cout << "Pos: " << i << endl;

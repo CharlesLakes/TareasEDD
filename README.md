@@ -6,7 +6,9 @@
 
 #### Pendiente
 
-- Leer archivo y guardarlo en strcut Asistencia (obtenerAsistencia)
+- Contar la cantidad de persona segun el FlujoNeto (ContarFlujoNeto)
+- Leer archivo y guardarlo en strcut Asistencia (txtToAsistencia)
+- Calcular los trabajadores en tal hora (CalcularTrabajadores)
 
 #### Realizado
 
