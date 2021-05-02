@@ -68,6 +68,38 @@ void sortFlujoNeto(int lenght, struct FlujoNeto *data){
     }
 }
 
+struct Asistencia{
+    int estado;
+    string rut;
+    int hora;
+    int minuto;
+};
+
+
+/*****
+* int obtenerAsistencia
+******
+* La funcion retorna el largo de los datos que se encuentran en el archivo
+******
+* Input:
+* string name_file: Nombre de el archivo en un formato "ESTADO RUT HH:MM"
+* strcut Asistencia **data: Puntero que apunta a otro puntero al que se le
+* asignara memoria y la informacion
+******
+* Returns:
+* int, Cantidad de datos
+*****/
+
+
+
+
+
+
+
+
+
+
+
 /*****
 * int cantidadPersonas
 ******
@@ -79,7 +111,6 @@ void sortFlujoNeto(int lenght, struct FlujoNeto *data){
 * Returns:
 * int, Devuelve la cantidad de personas en el local
 *****/
-
 int cantidadPersonas(string hora){
     
 
