@@ -51,17 +51,17 @@ void InterpretarHora(string str_hora ,int *hora, int *minuto ){
 *****/
 
 int datToFlujoNeto(string name_file,struct FlujoNeto *data[]){
-    int pos, lenght;
+    int pos, length;
 
     ifstream arch(name_file,ios::binary | ios::ate);  
     if(arch.is_open()){
         pos = arch.tellg();
-        lenght = pos/sizeof(struct FlujoNeto);
-        *data = new struct FlujoNeto[lenght];
+        length = pos/sizeof(struct FlujoNeto);
+        *data = new struct FlujoNeto[length];
         arch.seekg(0,ios::beg);
         arch.read((char *) *data,pos);
 
-        return lenght;
+        return length;
     }
     return 0;
 
@@ -75,15 +75,14 @@ int datToFlujoNeto(string name_file,struct FlujoNeto *data[]){
 * Input:
 * struct FlujoNeto* data: Puntero que guarda la direccion de memoria de
 * el arreglo de struct FlujoNeto
-* int lenght : Largo de el arreglo de struct FlujoNeto
-
+* int length : Largo de el arreglo de struct FlujoNeto
 ******
 * Returns:
 * void, No tiene rentorno
 *****/
-void sortFlujoNeto(struct FlujoNeto data[], int lenght){
-    for(int i = 0; i < lenght - 1 ; i++){
-        for(int a = 0; a < lenght - i - 1; a++){
+void sortFlujoNeto(struct FlujoNeto data[], int length){
+    for(int i = 0; i < length - 1 ; i++){
+        for(int a = 0; a < length - i - 1; a++){
             if(data[a].hora*100 + data[a].minuto > data[a + 1].hora*100 + data[a + 1].minuto){
                 struct FlujoNeto temp;
                 temp = data[a + 1];
@@ -105,12 +104,12 @@ void sortFlujoNeto(struct FlujoNeto data[], int lenght){
 * int minuto: El minuto requerido
 * struct FlujoNeto* data: Puntero que guarda la direccion de memoria de
 * el arreglo de struct FlujoNeto
-* int lenght : Largo de el arreglo de struct FlujoNeto
+* int length : Largo de el arreglo de struct FlujoNeto
 ******
 * Returns:
 * int, Cantidad de Personas
 *****/
-int ContarFlujoNeto(int hora, int minuto, struct FlujoNeto data[], int lenght){
+int ContarFlujoNeto(int hora, int minuto, struct FlujoNeto data[], int length){
 
 }
 
@@ -155,12 +154,12 @@ int txtToAsistencia(string name_file, struct Asistencia *data[]){
 * int hora: La hora requerida
 * int minuto: El minuto requerido
 * struct Asistencia *data: Puntero que guarda el arreglo de los struct
-* int lenght: El largo de el arreglo
+* int length: El largo de el arreglo
 ******
 * Returns:
 * int, Cantidad de trabajadores en cierta hora
 *****/
-int CalcularTrabajadores(int hora,int minuto,struct Asistencia data[], int lenght){
+int CalcularTrabajadores(int hora,int minuto,struct Asistencia data[], int length){
 
 }
 
