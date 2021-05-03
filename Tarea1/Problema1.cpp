@@ -35,35 +35,35 @@ void InterpretarHora(string str_hora ,int *hora, int *minuto ){
 
 
 /*****
-* int datToFlujoNeto
+* struct FlujoNeto* datToFlujoNeto
 ******
 * Interpreta y le los datos de el archivo .dat 
 * y los convierte en una lista de struct FlujoNeto
 ******
 * Input:
 * string name_file : Nombre de el archivo binario
-* struct FlujoNeto** data: Puntero de puntero que guarda 
-* la direccion de memoria de el puntero que guardara los 
-* datos afuera de la funcion
+* int length: Variable por referencia que guardara el largo 
+* de el arreglo de struct FlujoNeto
 ******
 * Returns:
-* int, Cantidad de struct FlujoNeto de el archivo name_file
+* struct FlujoNeto*, El arreglo de struct FlujoNeto contenido en el archivo binario
 *****/
 
-int datToFlujoNeto(string name_file,struct FlujoNeto *data[]){
-    int pos, length;
+struct FlujoNeto* datToFlujoNeto(string name_file,int& length){
+    int pos;
+    struct FlujoNeto *data;
 
     ifstream arch(name_file,ios::binary | ios::ate);  
     if(arch.is_open()){
         pos = arch.tellg();
         length = pos/sizeof(struct FlujoNeto);
-        *data = new struct FlujoNeto[length];
+        data = new struct FlujoNeto[length];
         arch.seekg(0,ios::beg);
-        arch.read((char *) *data,pos);
+        arch.read((char *) data,pos);
 
-        return length;
+        return data;
     }
-    return 0;
+    return NULL;
 
 }
 
@@ -125,19 +125,19 @@ struct Asistencia{
 
 
 /*****
-* int txtToAsistencia
+* struct Asistencia* txtToAsistencia
 ******
 * La funcion retorna el largo de los datos que se encuentran en el archivo
+* los cuales estan en un formato "ESTADO RUT HH:MM"
 ******
 * Input:
-* string name_file: Nombre de el archivo en un formato "ESTADO RUT HH:MM"
-* struct Asistencia **data: Puntero que apunta a otro puntero al que se le
-* asignara memoria y la informacion
+* string name_file: Nombre de el archivo 
+* int& length: Variable donde se guardara el largo de el arreglo de struct Asistencia
 ******
 * Returns:
-* int, Cantidad de datos
+* struct Asistencia*, Arreglo de struct de los datos leidos en el archivo
 *****/
-int txtToAsistencia(string name_file, struct Asistencia *data[]){
+struct Asistencia* txtToAsistencia(string name_file, int& length){
 
 }
 
@@ -186,8 +186,8 @@ int cantidadPersonas(string hora){
     int i_hora,i_minuto;
     InterpretarHora(hora,&i_hora,&i_minuto);
 
-    struct FlujoNeto *datos_trabajadores;
-    int largo_trabajadores = datToFlujoNeto("test.dat",&datos_trabajadores);
+    int largo_trabajadores;
+    struct FlujoNeto *datos_trabajadores = datToFlujoNeto("test.dat",largo_trabajadores);
     sortFlujoNeto(datos_trabajadores,largo_trabajadores);
 
 

@@ -23,28 +23,31 @@ void generadorDeArchivoTest(){
 }
 
 void LeeYOrdenTest(){
-    struct FlujoNeto *data;
-    int lenght = datToFlujoNeto("test.dat",&data);
+    int length;
+    struct FlujoNeto *data = datToFlujoNeto("test.dat",length);
 
-    for(int i = 0; i < lenght ; i++){
+    for(int i = 0; i < length ; i++){
         cout << "Pos: " << i << endl;
         cout << '\t' << "Hora: " << data[i].hora << endl;
         cout << '\t' << "Minuto: " << data[i].minuto << endl;
         cout << '\t' << "Personas: " << data[i].personas << endl;
    }
 
-    sortFlujoNeto(data,lenght);
-
-    for(int i = 0; i < lenght ; i++){
+    sortFlujoNeto(data,length);
+    cout << "Ordenado:" << endl << endl;
+    for(int i = 0; i < length ; i++){
         cout << "Pos: " << i << endl;
         cout << '\t' << "Hora: " << data[i].hora << endl;
         cout << '\t' << "Minuto: " << data[i].minuto << endl;
         cout << '\t' << "Personas: " << data[i].personas << endl;
    }
+
+   delete[] data;
 }
 
 
 int main(){
+    LeeYOrdenTest();
 
     return 0;
 }
