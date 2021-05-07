@@ -110,7 +110,14 @@ void sortFlujoNeto(struct FlujoNeto data[], int length){
 * int, Cantidad de Personas
 *****/
 int ContarFlujoNeto(int hora, int minuto, struct FlujoNeto data[], int length){
-
+    int p = 0;
+    for (int i = 0; i < length; i++)
+    {
+        if ((data[i].hora*100 + data[i].minuto <= hora*100 + minuto )){
+            p += data[i].personas;
+        }
+    }
+    return p;
 }
 
 
