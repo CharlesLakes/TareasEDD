@@ -51,7 +51,7 @@ void InterpretarHora(string str_hora ,int *hora, int *minuto ){
 
 struct FlujoNeto* datToFlujoNeto(string name_file,int& length){
     int pos;
-    struct FlujoNeto *data;
+    struct FlujoNeto *data = NULL;
 
     ifstream arch(name_file,ios::binary | ios::ate);  
     if(arch.is_open()){
@@ -60,10 +60,9 @@ struct FlujoNeto* datToFlujoNeto(string name_file,int& length){
         data = new struct FlujoNeto[length];
         arch.seekg(0,ios::beg);
         arch.read((char *) data,pos);
-
-        return data;
     }
-    return NULL;
+    arch.close();
+    return data;
 
 }
 
