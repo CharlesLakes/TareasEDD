@@ -14,11 +14,11 @@ void generadorDeArchivoTest(){
 
     ofstream arch("test.dat",ios::binary);
     struct FlujoNeto test[5];
-    test[0] = {15,24,10};
-    test[1] = {10,10,10};
-    test[2] = {15,30,10};
-    test[3] = {10,9,10};
-    test[4] = {9,0,10};
+    test[0] = {10,24,-10};
+    test[1] = {10,10,50};
+    test[2] = {20,30,10};
+    test[3] = {20,9,10};
+    test[4] = {20,0,10};
     arch.write((char *) &test,sizeof(test));
 }
 
@@ -45,9 +45,17 @@ void LeeYOrdenTest(){
    delete[] data;
 }
 
+void testcontarflujo(int hora, int minuto){
+    generadorDeArchivoTest();
+    int length;
+    struct FlujoNeto *data = datToFlujoNeto("test.dat",length);
+    sortFlujoNeto(data,length);
+    int c = ContarFlujoNeto(hora,minuto,data,length);
+    cout << c << endl;
+};
+
 
 int main(){
-    LeeYOrdenTest();
-
+    
     return 0;
 }
