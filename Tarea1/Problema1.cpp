@@ -33,7 +33,6 @@ void InterpretarHora(string str_hora ,int *hora, int *minuto ){
 
 
 
-
 /*****
 * struct FlujoNeto* datToFlujoNeto
 ******
@@ -125,7 +124,7 @@ int ContarFlujoNeto(int hora, int minuto, struct FlujoNeto data[], int length){
 struct Asistencia{
     int estado;
     string rut;
-    int hora;
+    int  hora;
     int minuto;
 };
 
@@ -144,12 +143,52 @@ struct Asistencia{
 * struct Asistencia*, Arreglo de struct de los datos leidos en el archivo
 *****/
 struct Asistencia* txtToAsistencia(string name_file, int& length){
+    string linea;
+    fstream fp;
+    int i=0,o=0,n_lineas,minuto,hora;
 
+    fp.open(name_file,ios::in);
+
+    if(!fp.is_open())
+        {cerr << "No se logro abrir el archivo" << name_file << endl;
+        return NULL;}
+
+    while (getline(fp,linea))
+        n_lineas++;
+
+    Asistencia* arreglo = new Asistencia[n_lineas];
+    fp.seekg(0,ios::beg);
+
+    while (fp>>linea)
+    {
+        if (i==0){
+            if (linea==(string)"E"){
+               arreglo[o].estado=1;
+            }
+            else{
+                arreglo[o].estado=0;
+            }    
+        }
+        if (i==1){
+            arreglo[o].rut=linea;
+        }
+        if (i==2){
+            InterpretarHora(linea,&hora,&minuto);
+            arreglo[o].hora=hora;
+            arreglo[o].minuto=minuto;
+            i=-1;
+            o++;
+        }
+        i++;
+    }   
+    fp.close();
+    length=n_lineas;
+    return arreglo;
 }
 
 
 
-
+ 
 
 /*****
 * int CalcularTrabajadores
@@ -175,8 +214,6 @@ int CalcularTrabajadores(int hora,int minuto,struct Asistencia data[], int lengt
 
 
 
-
-
 /*****
 * int cantidadPersonas
 ******
@@ -195,9 +232,6 @@ int cantidadPersonas(string hora){
     int largo_trabajadores;
     struct FlujoNeto *datos_trabajadores = datToFlujoNeto("test.dat",largo_trabajadores);
     sortFlujoNeto(datos_trabajadores,largo_trabajadores);
-
-
-
 
     return 0;
 }
