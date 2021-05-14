@@ -119,8 +119,6 @@ int ContarFlujoNeto(int hora, int minuto, struct FlujoNeto data[], int length){
 }
 
 
-
-
 struct Asistencia{
     int estado;
     string rut;
@@ -183,8 +181,7 @@ struct Asistencia* txtToAsistencia(string name_file, int& length){
     }   
     fp.close();
     length=n_lineas;
-    return arreglo;
-}
+    return arreglo;}
 
 
 
@@ -205,7 +202,30 @@ struct Asistencia* txtToAsistencia(string name_file, int& length){
 * int, Cantidad de trabajadores en cierta hora
 *****/
 int CalcularTrabajadores(int hora,int minuto,struct Asistencia data[], int length){
+    int a=0;
+    int sumahora = (hora*100+minuto);
 
+    for (int i = 0; i < length; i++){
+        if ((data[i].hora*100 + data[i].minuto <= sumahora)&&(data[i].estado == 1))
+        {a++;
+            int flag = 1;
+            for (int o = i+1 ; o < length && flag; o++)
+           {
+               if ((data[o].rut == data[i].rut)&&(data[o].estado==1))
+               {
+                   data[o].estado = 2;
+               }
+               if ((data[o].rut == data[i].rut)&&(data[o].estado==0))
+               {
+                   data[o].estado = 2;
+                   a--;
+                   flag =0;
+               }
+           }   
+        }
+        }
+    
+    return a;
 }
 
 
