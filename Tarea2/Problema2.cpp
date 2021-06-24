@@ -42,16 +42,22 @@ void tPolinomio::insert(unsigned int iE, int iC, tNodo *n= NULL){
 // recorrido in-orden de un ABB T
 void tPolinomio::evaluar(float x) {
     int resultado = 0;
-    inOrdenHelp (Padre,x,&resultado,Emax);
+    int temp = Emax;
+    inOrdenInverso (Padre,x,Emin,&resultado,&temp);
 }
-void inOrdenHelp (tNodo nodo, float x , int *resultado,int temp , int i=0) {
+void inOrdenInverso (tNodo nodo, float x ,int Emin,int* resultado,int* temp) {
     if (nodo == NULL) return;
-    inOrdenHelp (nodo->der); // visita hijo derecho en in-orden
-    if (nodo.E==temp) resultado+=nodo.C;
-    for (int a = 0; a < temp-nodo.E; a++)
-    {
-        resultado*= x;
+    inOrdenInverso (nodo->der,x,resultado,temp); // visita hijo derecho en in-orden
+    if (nodo.E == *temp) *resultado += nodo.C;
+    for (int a = 0; a < temp - nodo.E; a++)
+        *resultado *= x;
+    *resultado += nodo.C;
+    *temp = nodo.E;
+    
+    inOrdenHelp (nodo->izq,x,resultado,temp); // visita hijo izquierdo en in-orden 
+    if(Emin == *temp && temp != 0){
+        for(int a = 0; a < Emin; a++)
+            *resultado *= x;
     }
-    inOrdenHelp (nodo->izq); // visita hijo izquierdo en in-orden 
 }
 
