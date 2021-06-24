@@ -33,7 +33,7 @@ void LeeYOrdenTest(){
         cout << '\t' << "Personas: " << data[i].personas << endl;
    }
 
-    sortFlujoNeto(data,length);
+
     cout << "Ordenado:" << endl << endl;
     for(int i = 0; i < length ; i++){
         cout << "Pos: " << i << endl;
@@ -49,13 +49,13 @@ void testcontarflujo(int hora, int minuto){
     generadorDeArchivoTest();
     int length;
     struct FlujoNeto *data = datToFlujoNeto("test.dat",length);
-    sortFlujoNeto(data,length);
+
     int c = ContarFlujoNeto(hora,minuto,data,length);
     cout << c << endl;
 };
 
 
 int main(){
-    
+    cout << cantidadPersonas("14:00") << endl;
     return 0;
 }

@@ -48,49 +48,26 @@ void InterpretarHora(string str_hora ,int *hora, int *minuto ){
 * struct FlujoNeto*, El arreglo de struct FlujoNeto contenido en el archivo binario
 *****/
 
-struct FlujoNeto* datToFlujoNeto(string name_file,int& length){
+FlujoNeto* datToFlujoNeto(string name_file,int& length){
     int pos;
-    struct FlujoNeto *data;
+    FlujoNeto *data;
 
     ifstream arch(name_file,ios::binary | ios::ate);  
-    if(arch.is_open()){
-        pos = arch.tellg();
-        length = pos/sizeof(struct FlujoNeto);
-        data = new struct FlujoNeto[length];
-        arch.seekg(0,ios::beg);
-        arch.read((char *) data,pos);
-
-        return data;
+    if(!arch.is_open()){
+        cerr << "No se logro abrir el archivo " << name_file << endl;
+        return NULL;
     }
-    return NULL;
+    pos = arch.tellg();
+    length = pos/sizeof(FlujoNeto);
+    data = new FlujoNeto[length];
+    arch.seekg(0,ios::beg);
+    arch.read((char *) data,pos);
+    arch.close();
+
+    return data;
 
 }
 
-/*****
-* void sortFlujoNeto
-******
-* Ordena la lista de struct FlujoNeto de menor a mayor segun su hora
-******
-* Input:
-* struct FlujoNeto* data: Puntero que guarda la direccion de memoria de
-* el arreglo de struct FlujoNeto
-* int length : Largo de el arreglo de struct FlujoNeto
-******
-* Returns:
-* void, No tiene rentorno
-*****/
-void sortFlujoNeto(struct FlujoNeto data[], int length){
-    for(int i = 0; i < length - 1 ; i++){
-        for(int a = 0; a < length - i - 1; a++){
-            if(data[a].hora*100 + data[a].minuto > data[a + 1].hora*100 + data[a + 1].minuto){
-                struct FlujoNeto temp;
-                temp = data[a + 1];
-                data[a + 1] = data[a];
-                data[a] = temp;
-            }
-        }
-    }
-}
 
 
 /*****
@@ -108,13 +85,13 @@ void sortFlujoNeto(struct FlujoNeto data[], int length){
 * Returns:
 * int, Cantidad de Personas
 *****/
-int ContarFlujoNeto(int hora, int minuto, struct FlujoNeto data[], int length){
+int ContarFlujoNeto(int hora, int minuto, FlujoNeto data[], int length){
     int p = 0;
     for (int i = 0; i < length; i++)
     {
-        if ((data[i].hora*100 + data[i].minuto <= hora*100 + minuto )){
+        if ((data[i].hora*100 + data[i].minuto <= hora*100 + minuto ))
             p += data[i].personas;
-        }
+        
     }
     return p;
 }
@@ -141,36 +118,34 @@ struct Asistencia{
 * Returns:
 * struct Asistencia*, Arreglo de struct de los datos leidos en el archivo
 *****/
-struct Asistencia* txtToAsistencia(string name_file, int& length){
+Asistencia* txtToAsistencia(string name_file, int& length){
     string linea;
     fstream fp;
-    int i=0,o=0,n_lineas,minuto,hora;
+    int i=0,o=0,n_lineas = 0,minuto,hora;
 
-    fp.open(name_file,ios::in);
+    fp.open(name_file,ios::in );
 
-    if(!fp.is_open())
-        {cerr << "No se logro abrir el archivo" << name_file << endl;
-        return NULL;}
-
-    while (getline(fp,linea))
+    if(!fp.is_open()){
+        cerr << "No se logro abrir el archivo " << name_file << endl;
+        return NULL;
+    }
+    
+    while(getline(fp,linea))
         n_lineas++;
-
+    fp.close();
+    fp.open(name_file,ios::in);
     Asistencia* arreglo = new Asistencia[n_lineas];
-    fp.seekg(0,ios::beg);
 
-    while (fp>>linea)
-    {
-        if (i==0){
-            if (linea==(string)"E"){
+    while (fp>>linea ){
+        if (i==0){     
+            if (linea == (string) "E")
                arreglo[o].estado=1;
-            }
-            else{
+            if(linea == (string) "S")
                 arreglo[o].estado=0;
-            }    
         }
-        if (i==1){
+        if (i==1)
             arreglo[o].rut=linea;
-        }
+
         if (i==2){
             InterpretarHora(linea,&hora,&minuto);
             arreglo[o].hora=hora;
@@ -182,7 +157,8 @@ struct Asistencia* txtToAsistencia(string name_file, int& length){
     }   
     fp.close();
     length=n_lineas;
-    return arreglo;}
+    return arreglo;
+}
 
 
 
@@ -202,29 +178,26 @@ struct Asistencia* txtToAsistencia(string name_file, int& length){
 * Returns:
 * int, Cantidad de trabajadores en cierta hora
 *****/
-int CalcularTrabajadores(int hora,int minuto,struct Asistencia data[], int length){
-    int a=0;
-    int sumahora = (hora*100+minuto);
+int CalcularTrabajadores(int hora,int minuto,Asistencia data[], int length){
+    int a=0, sumahora = (hora*100+minuto);
 
     for (int i = 0; i < length; i++){
-        if ((data[i].hora*100 + data[i].minuto <= sumahora)&&(data[i].estado == 1))
-        {a++;
+        if ((data[i].hora*100 + data[i].minuto <= sumahora)&&(data[i].estado == 1)){
+            a++;
             int flag = 1;
-            for (int o = i+1 ; o < length && flag; o++)
-           {
-               if ((data[o].rut == data[i].rut)&&(data[o].estado==1))
-               {
-                   data[o].estado = 2;
-               }
-               if ((data[o].rut == data[i].rut)&&(data[o].estado==0))
-               {
-                   data[o].estado = 2;
-                   a--;
-                   flag =0;
+            for (int o = i+1 ; o < length && flag; o++){
+                if ((data[o].rut == data[i].rut)&&(data[o].estado==1))
+                    data[o].estado = 2;
+               if ((data[o].rut == data[i].rut)&&(data[o].estado==0)){
+                    if(data[o].hora*100 + data[o].minuto <= sumahora)
+                        a--;
+                    
+                    flag =0;
                }
            }   
         }
-        }
+    }
+    
     
     return a;
 }
@@ -250,9 +223,42 @@ int cantidadPersonas(string hora){
     int i_hora,i_minuto;
     InterpretarHora(hora,&i_hora,&i_minuto);
 
+    int largo_flujo;
+    FlujoNeto *datos_flujo = datToFlujoNeto("flujo-publico.dat",largo_flujo);
+    int cantidad_de_personas = ContarFlujoNeto(i_hora,i_minuto,datos_flujo,largo_flujo);
+
     int largo_trabajadores;
-    struct FlujoNeto *datos_trabajadores = datToFlujoNeto("test.dat",largo_trabajadores);
-    sortFlujoNeto(datos_trabajadores,largo_trabajadores);
+    Asistencia *datos_trabajadores = txtToAsistencia("asistencia.txt",largo_trabajadores);
+    int cantidad_de_trabajadores = CalcularTrabajadores(i_hora,i_minuto,datos_trabajadores,largo_trabajadores);
+    
+    delete[] datos_flujo;
+    delete[] datos_trabajadores;
+
+    return cantidad_de_personas + cantidad_de_trabajadores;
+}
+
+
+
+int main(){
+    cout << "08:00" << " "  << cantidadPersonas("08:00") << endl;
+    cout << "08:04" << " "  << cantidadPersonas("08:04") << endl;
+    cout << "08:30" << " "  << cantidadPersonas("08:30") << endl;
+    cout << "09:00" << " "  << cantidadPersonas("09:00") << endl;
+    cout << "10:00" << " "  << cantidadPersonas("10:00") << endl;
+    cout << "12:00" << " "  << cantidadPersonas("12:00") << endl;
+    cout << "12:15" << " "  << cantidadPersonas("12:15") << endl;
+    cout << "12:16" << " "  << cantidadPersonas("12:16") << endl;
+    cout << "12:30" << " "  << cantidadPersonas("12:30") << endl;
+    cout << "13:30" << " "  << cantidadPersonas("13:30") << endl;
+    cout << "14:30" << " "  << cantidadPersonas("14:30") << endl;
+    cout << "15:50" << " "  << cantidadPersonas("15:50") << endl;
+    cout << "16:00" << " "  << cantidadPersonas("16:00") << endl;
+    cout << "17:10" << " "  << cantidadPersonas("17:10") << endl;
+    cout << "17:15" << " "  << cantidadPersonas("17:15") << endl;
+    cout << "18:00" << " "  << cantidadPersonas("18:00") << endl;
+    cout << "18:15" << " "  << cantidadPersonas("18:15") << endl;
+    cout << "20:00" << " "  << cantidadPersonas("20:00") << endl;
 
     return 0;
 }
+
