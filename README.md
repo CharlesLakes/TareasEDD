@@ -2,15 +2,13 @@
 
 ## Tarea en curso (N°1)
 
-### Problema 1
+### Tarea 2
 
-#### Pendiente
+#### Problema 1
 
-- Contar la cantidad de persona segun el FlujoNeto (ContarFlujoNeto)
-- Leer archivo y guardarlo en strcut Asistencia (txtToAsistencia)
-- Calcular los trabajadores en tal hora (CalcularTrabajadores)
+- Comentar funciones
 
-#### Realizado
+#### Problema 2
 
-- Obtener datos de .dat e interpretarlo como el struct FlujoNeto (datToFlujoNeto)
-- Ordenar lista struct FlujoNeto (sortFlujoNeto)
+- Implementar el tda polinomio con arbol binarios
+- Aplicar el algoritmo de horner para probar el funcionamiento
