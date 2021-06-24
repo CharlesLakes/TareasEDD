@@ -12,13 +12,11 @@ class tPolinomio{
         tNodo *iLista;
         unsigned int n;
         unsigned Emax;
-
-        float horner(unsigned int e,float x);
     public:
         tPolinomio();
         ~tPolinomio();
-        void push(unsigned int iE, int iC);
-        float evaluar(float x);
+        void append(unsigned int iE, int iC);
+        float evaluar(float x,unsigned int e);
         int coeficiente(unsigned iE);
         void clear();
         
@@ -52,7 +50,7 @@ int tPolinomio::coeficiente(unsigned iE){
     return C;
 }
 
-void tPolinomio::push(unsigned int iE, int iC){
+void tPolinomio::append(unsigned int iE, int iC){
     tNodo *tempNodo = new tNodo;
     tNodo *searchNodo = iLista;
     tempNodo->E = iE;
@@ -71,16 +69,12 @@ void tPolinomio::push(unsigned int iE, int iC){
     n++;
 }
 
-float tPolinomio::horner(unsigned int e,float x){
-    int C = coeficiente(e);
 
+float tPolinomio::evaluar(float x,unsigned int e = 0){
+    int C = coeficiente(e);
     if(e == Emax)
         return C;
-    return C + x*horner(e + 1,x);
-}
-
-float tPolinomio::evaluar(float x){
-    return horner(0,x);
+    return C + x*evaluar(x,e + 1);
 }
 
 
@@ -110,7 +104,7 @@ tPolinomio* ObtenerPolinomios(string name_file ,int& pos,int& length){
             int c;
             fp >> e;
             fp >> c;
-            listapolinomios[i].push(e,c);
+            listapolinomios[i].append(e,c);
         }
     }
     
