@@ -375,8 +375,8 @@ void InterpretarOperaciones(string input_file,string output_file,tPolinomio poli
 
 int main(){
     int pos,lenght;
-    tPolinomio* polinomios = ObtenerPolinomios("in.txt",pos,lenght);
-    InterpretarOperaciones("in.txt","out.txt",polinomios,lenght,pos);
+    tPolinomio* polinomios = ObtenerPolinomios("entradaPolinomio.txt",pos,lenght);
+    InterpretarOperaciones("entradaPolinomio.txt","salidaPolinomio.txt",polinomios,lenght,pos);
 
     return 0;
 }
