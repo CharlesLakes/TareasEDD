@@ -234,7 +234,6 @@ void inOrdenInverso(tNodo* nodo, float x ,unsigned int Emin,float* resultado,uns
         *resultado += nodo->C;
     }
     *temp = nodo->E;
-    cout << *resultado << endl;
     inOrdenInverso (nodo->izq,x,Emin,resultado,temp); // visita hijo izquierdo en in-orden 
     if(Emin == *temp && temp != 0){
         for(unsigned int a = 0; a < Emin; a++)
