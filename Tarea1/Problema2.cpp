@@ -24,7 +24,6 @@ class A{
 };
 
 
-
 /*****
 * void A::setValue
 ******
