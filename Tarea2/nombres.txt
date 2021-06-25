@@ -1,0 +1,3 @@
+Carlos Lagos, 202073571-9, Paralelo 201, Problema 1 y 2 (Algoritmo de Horner y coeficiente , función clear y estructura)
+Matías Aguilar, ROL, Paralelo 201, Problema 2 (TDA Polinomio lista, ordenar y comentar codigo)
+José Pinto, 202073559-K, Paralelo 201, Problema 1 y 2 (Las funciones que lee el archivo, ordenar y comentar codigo)
