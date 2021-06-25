@@ -7,6 +7,17 @@ struct tNodo{
     tNodo* sig;
 };
 
+/*****
+* class tPolinomio
+******
+* Clase polinomio
+******
+* Input: 
+* Sin entradas
+******
+* Returns:
+* No tiene un retorno
+*****/
 class tPolinomio{
     private:
         tNodo *iLista;
@@ -22,14 +33,48 @@ class tPolinomio{
         
 };
 
+/*****
+* tPolinomio::tPolinomio
+******
+* Se define el constructor de la clase
+******
+* Input: 
+* Sin entradas
+******
+* Returns:
+* No tiene un retorno
+*****/
 tPolinomio::tPolinomio(){
     n = 0;
     Emax = 0;
 }
+
+/*****
+* tPolinomio::~tPolinomio
+******
+* Limpia o reinicializa la lista
+******
+* Input: 
+* Sin entradas
+******
+* Returns:
+* No tiene un retorno
+*****/
 tPolinomio::~tPolinomio(){
     clear();
 }
 
+/*****
+* void tPolinomio::clear
+******
+* Limpia o reinicializa la lista
+******
+* Input: 
+* Sin entradas
+******
+* Returns:
+* void, No tiene un retorno
+*****/
 void tPolinomio::clear(){
     while(iLista != NULL){
         tNodo *aux = iLista->sig;
@@ -37,7 +82,20 @@ void tPolinomio::clear(){
         iLista = aux;
     }
     n = 0;
+    Emax = 0;
 };
+
+/*****
+* int tPolinomio::coeficiente
+******
+* Recibe la entrada del exponete, busca y retorna el coeficiente del monomio 
+******
+* Input: 
+* unsigned iE : Entrada del exponente
+******
+* Returns:
+* int C, retorna el coeficiente
+*****/
 int tPolinomio::coeficiente(unsigned iE){
     tNodo *aux = iLista;
     int C = 0;
@@ -46,10 +104,21 @@ int tPolinomio::coeficiente(unsigned iE){
             C = aux->C;
         aux = aux->sig;
     }
-
     return C;
 }
 
+/*****
+* void tPolinomio::append
+******
+* Agrega un nuevo nodo a la lista 
+******
+* Input: 
+* unsigned int iE : Entrada del exponente
+* int iC :  Entrada del coeficiente
+******
+* Returns:
+* void, No tiene un retorno
+*****/
 void tPolinomio::append(unsigned int iE, int iC){
     tNodo *tempNodo = new tNodo;
     tNodo *searchNodo = iLista;
@@ -63,13 +132,24 @@ void tPolinomio::append(unsigned int iE, int iC){
         searchNodo->sig = tempNodo;
     }
     
-
     if(Emax < iE)
         Emax = iE;
     n++;
 }
 
-
+/*****
+* float tPolinomio::evaluar
+******
+* Función recursiva que evalua la x en un polinomio
+* y retornando el resultado
+******
+* Input: 
+* float x : Número por el cual se reemplaza la x
+* unsigned int e = 0 : Contador de exponente
+******
+* Returns:
+* float , es el Polinomio evaluado en x
+*****/
 float tPolinomio::evaluar(float x,unsigned int e = 0){
     int C = coeficiente(e);
     if(e == Emax)
@@ -83,6 +163,21 @@ float tPolinomio::evaluar(float x,unsigned int e = 0){
 using namespace std;
 
 
+/*****
+* tPolinomio* ObtenerPolinomios
+******
+* Interpreta y lee los datos de el archivo .txt 
+* y los guarda en una lista
+******
+* Input:
+* string name_file : Nombre de el archivo de texto
+* int& pos : Posición de el cursor al leer
+* int& length : Variable por referencia que guardara el largo 
+* .......
+******
+* Returns:
+* listapolinomios, lista de tipo tPolinomio que contiene los polinomios
+*****/
 tPolinomio* ObtenerPolinomios(string name_file ,int& pos,int& length){
 
     int largo;
@@ -115,6 +210,24 @@ tPolinomio* ObtenerPolinomios(string name_file ,int& pos,int& length){
     return listapolinomios;
 }
 
+
+/*****
+* void InterpretarOperaciones
+******
+* Lee el archivo con los polinomios, busca el desado,
+* evalua, obtiene el coficiente y finalmente lo escribe en otro archivo
+******
+* Input:
+* string input_file : Nombre de el archivo que se lee
+* string output_file : Nombre de el archivo donde se escribe
+* tPolinomio polinomios[] : Lista que contiene los polinomios
+* int& length : Variable por referencia que guardara el largo
+* int pos = 0 : Posición de el cursor al escribir
+* .......
+******
+* Returns:
+* void, No tiene un retorno
+*****/
 void InterpretarOperaciones(string input_file,string output_file,tPolinomio polinomios[],int lenght,int pos = 0){
     fstream in;
     fstream out;
