@@ -32,7 +32,7 @@ tPolinomio::~tPolinomio(){
     clear();
 }
 
-void coefHelp(tNodo* temp,unsigned iE,int *i){
+void coefHelp(tNodo* temp,unsigned int iE,int *i){
     if(temp == NULL) return;
     coefHelp(temp->izq,iE,i);
     coefHelp(temp->der,iE,i);
@@ -41,7 +41,7 @@ void coefHelp(tNodo* temp,unsigned iE,int *i){
     };
 };
 
-int tPolinomio::coeficiente(unsigned iE){
+int tPolinomio::coeficiente(unsigned int iE){
     int i;
     coefHelp(Padre,iE,&i);
     return i;
