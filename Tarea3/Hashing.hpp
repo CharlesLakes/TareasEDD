@@ -1,6 +1,5 @@
 #ifndef Hashing_hpp
 #define Hashing_hpp
-#define M 100
 #define P 100
 #define VACIA -1
 
@@ -12,6 +11,6 @@ struct block{
     typeData data[P];
 };
 
-int hashInsert(block HT[], typePass k, typeData I[P] , int typeSize);
-typeData* hashSearch(block HT[], typePass k);
+int hashInsert(block HT[], typePass k, typeData I[], int typeSize,int& M);
+typeData* hashSearch(block HT[], typePass k, int& M);
 #endif

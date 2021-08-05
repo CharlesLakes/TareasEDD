@@ -18,9 +18,8 @@ struct oferta {
     int productos_equivalentes[10];
 };
 
-block* fileToHash(string filename,int type = 1){
-    int size;
-    block* list = new block[M];
+block* fileToHash(string filename, float alpha, int& size, int type = 1){
+    block* list;
     fstream file;
     file.open(filename,ios::in);
     if(!file.is_open()){
@@ -30,15 +29,21 @@ block* fileToHash(string filename,int type = 1){
 
     file.read((char *) &size,sizeof(int));
 
+    int M = (size/alpha);
+    while(size >= M) M++;
+    size = M;
+
+    list = new block[size];
+    
     for(int i = 0;i < size; i++){
         if(type){
             producto temp;
             file.read((char *) &temp,sizeof(producto));
-            hashInsert(list,temp.cod_producto,(char *) &temp,sizeof(producto));
+            hashInsert(list,temp.cod_producto,(char *) &temp,sizeof(producto),size);
         }else{
             oferta temp;
             file.read((char *) &temp,sizeof(oferta));
-            hashInsert(list,temp.cod_producto,(char *) &temp,sizeof(oferta));
+            hashInsert(list,temp.cod_producto,(char *) &temp,sizeof(oferta),size);
         }
     }
 
@@ -47,7 +52,7 @@ block* fileToHash(string filename,int type = 1){
 
 }
 
-void createVoucher(string in_filename,string out_filename,block* products, block* offer){
+void createVoucher(string in_filename,string out_filename,block* products, block* offer,int& M_product, int& M_offer){
     fstream inFile, outFile;
     int N;
 
@@ -55,20 +60,19 @@ void createVoucher(string in_filename,string out_filename,block* products, block
     outFile.open(out_filename,ios::out);
     inFile >> N;
     outFile << N << endl;
-    
     for(int i = 0; i < N; i++){
         int C, value = 0;
         inFile >> C;
 
         tGrafo temp(C);
         oferta** list_cod = new oferta*[C];
-
+        
         for(int j = 0; j < C; j++){
             int cod_product;
             inFile >> cod_product;
-
-            producto * temp_product = (producto *) hashSearch(products,cod_product);
-            list_cod[j] = (oferta *) hashSearch(offer,cod_product);
+            
+            producto * temp_product = (producto *) hashSearch(products,cod_product,M_product);
+            list_cod[j] = (oferta *) hashSearch(offer,cod_product,M_offer);
             value += temp_product->precio;
 
             if(list_cod[j] != NULL){
@@ -100,9 +104,11 @@ void createVoucher(string in_filename,string out_filename,block* products, block
 
 
 int main(){
-    block* products = fileToHash("productos.dat",1);
-    block* offer = fileToHash("ofertas.dat",0);
-    createVoucher("compras.txt","boletas2.txt",products,offer);
+    int M_products, M_offer;
+    block* products = fileToHash("productos.dat",0.7,M_products,1);
+    block* offer = fileToHash("ofertas.dat",0.7,M_offer,0);
+    
+    createVoucher("compras.txt","boletas2.txt",products,offer,M_products,M_offer);
 
 
     delete[] products;
