@@ -17,7 +17,7 @@ class tGrafo{
         int size;
     public:
         tGrafo(int n);
-        ~tGrafo(){};
+        ~tGrafo();
         int nVertex();
         void setEdge (tVertice v1, tVertice v2);
         int getMark (tVertice v);

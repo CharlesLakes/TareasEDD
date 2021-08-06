@@ -7,6 +7,20 @@ tGrafo::tGrafo(int n){
     size = n;
 };
 
+
+tGrafo::~tGrafo(){
+    Vecino* temp;
+    for(int i = 0; i < size; i++){
+        temp = lista[i].vecinos;
+        while(temp != NULL){
+            Vecino* aux = temp->vecinos;
+            delete temp;
+            temp = aux;
+        }
+    }
+    delete[] lista;
+}
+
 int tGrafo::nVertex(){
     return size;
 };
