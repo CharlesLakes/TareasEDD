@@ -1,0 +1,3 @@
+Carlos Lagos, 202073571-9, Paralelo 201, hashInsert, hashSearch, tGrafo y createVoucher
+Carlos Khun, 202073574-3, Paralelo 201, tGrafo, fileToHash y createVoucher
+Javier Villalobos , 202073514-k, Paralelo 201, tGrafo, fileToHash, hashInsert y hashSearch,
