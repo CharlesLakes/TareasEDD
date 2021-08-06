@@ -18,6 +18,22 @@ struct oferta {
     int productos_equivalentes[10];
 };
 
+/*****
+* block* fileToHash 
+******
+* Interpreta y lee los datos de el archivo .bat
+* y los guarda en una lista usando hashing
+******
+* Input:
+* string filename : nombre del archivo
+* float alpha : porcentaje del arreglo que debe estar lleno
+* int& size : largo del arreglo
+* int type : producto(1) u oferta(0)
+******
+* Returns:
+* list, lista con los elementos ordenados por hashing   
+*****/
+
 block* fileToHash(string filename, float alpha, int& size, int type = 1){
     block* list;
     fstream file;
@@ -31,26 +47,46 @@ block* fileToHash(string filename, float alpha, int& size, int type = 1){
 
     int M = (size/alpha);
     while(size >= M) M++;
-    size = M;
-
-    list = new block[size];
     
+
+    list = new block[M];
+
     for(int i = 0;i < size; i++){
         if(type){
             producto temp;
             file.read((char *) &temp,sizeof(producto));
-            hashInsert(list,temp.cod_producto,(char *) &temp,sizeof(producto),size);
+            if(!hashInsert(list,temp.cod_producto,(char *) &temp,sizeof(producto),M))
+                cerr << "La llave ya a sido ingresada." << endl;
         }else{
             oferta temp;
             file.read((char *) &temp,sizeof(oferta));
-            hashInsert(list,temp.cod_producto,(char *) &temp,sizeof(oferta),size);
+            if(!hashInsert(list,temp.cod_producto,(char *) &temp,sizeof(oferta),M))
+                cerr << "La llave ya a sido ingresada." << endl;
         }
     }
-
+    size = M;
+    
     file.close();
     return list;
 
 }
+
+/*****
+* void createVoucher
+******
+* Lee las compras y genera la boleta
+******
+* Input:
+* string in_filename : nombre del archivo de entrada
+* string out_filename : nombre del archivo de salida
+* block* products : lista con los productos de la tienda
+* block* offer : lista con los descuentos de la tienda
+* int& M_product : largo de la tabla de hashing de los productos
+* int& M_offer : largo de la tabla de hashing de los descuentos
+******
+* Returns:
+* No tiene retorno
+*****/
 
 void createVoucher(string in_filename,string out_filename,block* products, block* offer,int& M_product, int& M_offer){
     fstream inFile, outFile;
@@ -107,7 +143,7 @@ int main(){
     int M_products, M_offer;
     block* products = fileToHash("productos.dat",0.7,M_products,1);
     block* offer = fileToHash("ofertas.dat",0.7,M_offer,0);
-    
+
     createVoucher("compras.txt","boletas2.txt",products,offer,M_products,M_offer);
 
 
