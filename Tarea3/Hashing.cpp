@@ -28,7 +28,7 @@ int h(typePass k){
 /*****
 * int h2
 ******
-* Eleva k al cuadraado
+* Devuelve 1 si M es par y 2 si es impar
 ******
 * Input:
 * typePass k : clave del dato
