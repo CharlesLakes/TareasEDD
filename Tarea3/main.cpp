@@ -144,7 +144,7 @@ int main(){
     block* products = fileToHash("productos.dat",0.7,M_products,1);
     block* offer = fileToHash("ofertas.dat",0.7,M_offer,0);
 
-    createVoucher("compras.txt","boletas2.txt",products,offer,M_products,M_offer);
+    createVoucher("compras.txt","boletas.txt",products,offer,M_products,M_offer);
 
 
     delete[] products;
