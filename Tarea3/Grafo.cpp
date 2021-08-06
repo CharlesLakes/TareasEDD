@@ -35,9 +35,9 @@ tGrafo::~tGrafo(){
     for(int i = 0; i < size; i++){
         temp = lista[i].vecinos;
         while(temp != NULL){
-            Vecino* aux = temp->vecinos;
+            Vecino* auxiliar = temp->vecinos;
             delete temp;
-            temp = aux;
+            temp = auxiliar;
         }
     }
     delete[] lista;
