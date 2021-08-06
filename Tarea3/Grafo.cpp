@@ -1,5 +1,5 @@
 #include "Grafo.hpp"
-#define NULL nullptr
+#include <iostream>
 
 /*****
 * tGrafo::tGrafo
@@ -15,6 +15,7 @@
 
 tGrafo::tGrafo(int n){
     lista = new Vertice[n];
+    aux = new Vecino*[n];
     size = n;
 };
 
@@ -40,6 +41,7 @@ tGrafo::~tGrafo(){
         }
     }
     delete[] lista;
+    delete[] aux;
 }
 
 /*****
@@ -76,10 +78,9 @@ void tGrafo::setEdge (tVertice v1, tVertice v2){
         return;
     }
     Vecino* temp = lista[v1].vecinos;
-    while(temp->vecinos != NULL)
-        temp = temp->vecinos;
-    temp->vecinos = new Vecino;
-    temp->vecinos->id = v2;
+    lista[v1].vecinos = new Vecino;
+    lista[v1].vecinos->id = v2;
+    lista[v1].vecinos->vecinos = temp;
     
 };
 
@@ -130,6 +131,7 @@ void tGrafo::setMark (tVertice v, int marca){
 
 tVertice tGrafo::first (tVertice v){
     if(lista[v].vecinos == NULL) return size;
+    aux[v] = lista[v].vecinos;
     return lista[v].vecinos->id;
 }
 
@@ -147,9 +149,12 @@ tVertice tGrafo::first (tVertice v){
 *****/
 
 tVertice tGrafo::next (tVertice v, tVertice w){
-    Vecino *temp;
-    for(temp = lista[v].vecinos; temp != NULL && temp->id != w; temp = temp->vecinos);
-    if(temp == NULL || temp->vecinos == NULL)
-        return size;
-    return temp->vecinos->id;
+    if(aux[v] == NULL || aux[v]->vecinos == NULL) return size;
+    
+    if(aux[v]->id != w){
+        for(aux[v] = lista[v].vecinos; aux[v] != NULL && aux[v]->id != w; aux[v] = aux[v]->vecinos);
+        if(aux[v] == NULL) return size;
+    }
+    aux[v] = aux[v]->vecinos;
+    return aux[v]->id;
 }

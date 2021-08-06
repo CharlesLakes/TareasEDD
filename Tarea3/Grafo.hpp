@@ -14,6 +14,7 @@ struct Vertice{
 class tGrafo{
     private:
         Vertice* lista;
+        Vecino** aux;
         int size;
     public:
         tGrafo(int n);
